@@ -1,58 +1,158 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <div>
+    <div class='main'>
+      <div class='title'><div class='leftline'></div><img src='../assets/logo.png'/></div>
+      <div class='line'><span></span><div>CHARACTER</div><span></span></div>
+      <div class='content'>
+        <div class='item' v-for="item in roles" :key='item.name'>
+          <img src='../assets/img-1.jpg'>
+          <div class='tip'><span>角色:{{item.name}}</span></div>
+        </div>
+      </div>
+    </div>
+    <div style='display:none'>
+      <div class='mask'></div>
+      <div class='scape'><img src='../assets/scape.png'/></div>
+    </div>
   </div>
 </template>
 
 <script>
+import {apiGet} from '../request'
+
 export default {
   name: 'HelloWorld',
-  props: {
-    msg: String
+  data(){
+    return {
+      roles:[]
+    }
+  },
+  mounted(){
+    apiGet('/data.json',res=>{
+      this.roles = JSON.parse(res)
+    })
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+.title{
+  background-color: #121413;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  background:url(../assets/bg.png) no-repeat;
+  background-size: cover;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+.title img{
+  height: 40px;
+  margin-left:150px;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+.line{
+  color:#B5C0C4;
+  margin:60px 0 10px;
+  display: flex;
+  align-items: center;
+  font-size:16px;
+  font-weight: bold;
 }
-a {
-  color: #42b983;
+.line div{
+  width:150px;
+  text-align: center;
+}
+.line span{
+  border:1px solid #293134;
+  height: 0;
+  flex:1;
+}
+.content{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 0 10% 150px;
+}
+.content .item{
+  width:30%;
+  position: relative;
+}
+.item img{
+  width:100%;
+  margin-top:50px;
+}
+.tip{
+  position:absolute;
+  height: 20%;
+  bottom: 0;
+  background-color: #202529;
+  opacity: 0.5;
+  width:100%;
+  display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-right: 20px;
+    color:white;
+}
+.tip span{
+  margin-right: 20px;
+}
+
+@media screen and (max-width:992px){
+  .title{
+    background:#121413;
+    height: 40px;
+  }
+  .title .leftline{
+    background-color:#E89818;
+    width:6px;
+    height: 100%;
+  }
+  .title img{
+    height: 30px;
+    margin-left:10px;
+  }
+  .content .item{
+    width:45%
+  }
+}
+
+@media screen and (max-width:768px){
+  .title{
+    height: 30px;
+  }
+  .title img{
+    height: 20px;
+  }
+  .content{
+    justify-content: center;
+  }
+  .content .item{
+    width:80%
+  }
+}
+
+.mask{
+  background-color:black;
+  opacity: 0.5;
+  width:100%;
+  height: 100%;
+  position:fixed;
+  top:0;
+  left:0;
+}
+.scape{
+  position: fixed;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+}
+.scape img{
+  width:120px;
+  transform: rotate(-90deg);
+  animation: imgrotate 1s infinite;
+}
+
+@keyframes imgrotate {
+  0% {transform: rotate(-90deg);}
+  100% {transform: rotate(0);}
 }
 </style>
