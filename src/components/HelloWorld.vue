@@ -1,24 +1,27 @@
 <template>
   <div>
     <div class='main'>
-      <div class='title'><div class='leftline'></div><img src='../assets/logo.png'/></div>
-      <div class='line'><span></span><div>CHARACTER</div><span></span></div>
-      <div class='content'>
-        <div class='item' v-for="item in roles" :key='item.name'>
-          <img src='../assets/img-1.jpg'>
-          <div class='tip'><span>角色:{{item.name}}</span></div>
-        </div>
+      <div class='title'>
+        <div class='leftline'></div>
+        <img src='@/assets/logo.png'/>
       </div>
+      <div class='line'><span></span><div>CHARACTER</div><span></span></div>
+      <ul class='content'>
+        <li v-for="item in roles" :key='item.name'>
+          <img src='@/assets/img-1.jpg'>
+          <div class='tip'><span>角色:{{item.name}}</span></div>
+        </li>
+      </ul>
     </div>
-    <div style='display:none'>
+    <div class='scape'>
       <div class='mask'></div>
-      <div class='scape'><img src='../assets/scape.png'/></div>
+      <div class='imgdiv'><img src='@/assets/scape.png'/></div>
     </div>
   </div>
 </template>
 
 <script>
-import {apiGet} from '../request'
+import {apiGet} from '@/request'
 
 export default {
   name: 'HelloWorld',
@@ -41,7 +44,7 @@ export default {
   height: 200px;
   display: flex;
   align-items: center;
-  background:url(../assets/bg.png) no-repeat;
+  background:url(@/assets/bg.png) no-repeat;
   background-size: cover;
 }
 .title img{
@@ -71,11 +74,12 @@ export default {
   flex-wrap: wrap;
   padding: 0 10% 150px;
 }
-.content .item{
+.content li{
   width:30%;
   position: relative;
+  list-style: none;
 }
-.item img{
+.content li img{
   width:100%;
   margin-top:50px;
 }
@@ -110,7 +114,7 @@ export default {
     height: 30px;
     margin-left:10px;
   }
-  .content .item{
+  .content li{
     width:45%
   }
 }
@@ -125,9 +129,14 @@ export default {
   .content{
     justify-content: center;
   }
-  .content .item{
+  .content li{
     width:80%
   }
+}
+
+.scape{display: none;}
+@media screen and (max-width:768px) and (orientation: portrait ){
+  .scape{display: block;}
 }
 
 .mask{
@@ -139,13 +148,13 @@ export default {
   top:0;
   left:0;
 }
-.scape{
+.imgdiv{
   position: fixed;
   top:50%;
   left:50%;
   transform: translate(-50%,-50%);
 }
-.scape img{
+.imgdiv img{
   width:120px;
   transform: rotate(-90deg);
   animation: imgrotate 1s infinite;
